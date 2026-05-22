@@ -1,0 +1,20 @@
+{
+  "name": "currencies",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "currencies.js",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "vite build",
+    "preview": "vite preview --host 0.0.0.0"
+  },
+  "dependencies": {
+    "@vitejs/plugin-vue": "^5.2.1",
+    "vite": "^6.0.7",
+    "vue": "^3.5.13",
+    "stylus": "^0.64.0"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

@@ -1,0 +1,29 @@
+{
+  "name": "currencies",
+  "build": {
+    "dockerfile": "dockerfile"
+  },
+  "runArgs": [
+    "--name",
+    "currencies"
+  ],
+  "customizations": {
+    "vscode": {
+      "extensions": [
+      ],
+      "settings": {
+        "remote.autoForwardPorts": false
+      }
+    }
+  },
+  "forwardPorts": [
+    8080
+  ],
+  "otherPortsAttributes": {
+    "onAutoForward": "ignore"
+  },
+  "mounts": [
+    "source=currencies.node_modules,target=${containerWorkspaceFolder}/node_modules,type=volume"
+  ],
+  "postCreateCommand": "sudo chown node node_modules && yarn install --production=false"
+}
