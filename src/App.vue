@@ -3,10 +3,31 @@
     <section class="converter">
       <div class="converter__header">
         <p class="eyebrow">NBRB exchange rates</p>
-        <h1>Currency to BYN</h1>
+        <h1>{{ converterTitle }}</h1>
       </div>
 
       <form class="converter__form" @submit.prevent>
+        <div class="direction-toggle" role="group" aria-label="Conversion direction">
+          <button
+            type="button"
+            class="direction-toggle__option"
+            :class="{ 'direction-toggle__option--active': isCurrencyToByn }"
+            :aria-pressed="isCurrencyToByn"
+            @click="conversionDirection = 'toByn'"
+          >
+            Currency to BYN
+          </button>
+          <button
+            type="button"
+            class="direction-toggle__option"
+            :class="{ 'direction-toggle__option--active': !isCurrencyToByn }"
+            :aria-pressed="!isCurrencyToByn"
+            @click="conversionDirection = 'fromByn'"
+          >
+            BYN to currency
+          </button>
+        </div>
+
         <BaseField label="Currency">
           <BaseSelect
             v-model="selectedCurrency"
@@ -15,7 +36,7 @@
           />
         </BaseField>
 
-        <BaseField label="Amount">
+        <BaseField :label="amountLabel">
           <BaseNumberInput
             v-model="amount"
             :min="0"
@@ -48,7 +69,7 @@
         :disabled="!canCopy"
         @click="copyResult"
       >
-        Copy BYN value
+        Copy {{ resultCurrencyCode }} value
       </BaseButton>
 
       <BaseAlert
@@ -99,6 +120,42 @@ h1
   margin 0
   font-size clamp(1.65rem, 7vw, 2rem)
   line-height 1.15
+
+.direction-toggle
+  display grid
+  grid-template-columns repeat(2, minmax(0, 1fr))
+  gap 4px
+  padding 4px
+  border 1px solid #c8d4e5
+  border-radius 8px
+  background #edf3f8
+
+.direction-toggle__option
+  min-width 0
+  min-height 38px
+  padding 0 10px
+  border 0
+  border-radius 6px
+  background transparent
+  color #4b5f7d
+  cursor pointer
+  font inherit
+  font-size .88rem
+  font-weight 800
+  line-height 1.15
+  transition background .16s ease, color .16s ease, box-shadow .16s ease
+
+  &:hover
+    color #162033
+
+  &:focus-visible
+    box-shadow 0 0 0 3px rgba(37, 116, 169, .18)
+    outline none
+
+.direction-toggle__option--active
+  background #fff
+  color #162033
+  box-shadow 0 1px 3px rgba(41, 57, 87, .12)
 
 .result-panel
   display grid
@@ -180,6 +237,7 @@ export default {
   data() {
     return {
       amount: 1,
+      conversionDirection: 'toByn',
       selectedCurrency: DEFAULT_CURRENCY,
       selectedDate: todayIsoDate(),
       currencies: [],
@@ -202,19 +260,37 @@ export default {
     selectedRate() {
       return this.currencies.find(currency => currency.Cur_Abbreviation === this.selectedCurrency) || null
     },
+    isCurrencyToByn() {
+      return this.conversionDirection === 'toByn'
+    },
+    converterTitle() {
+      return this.isCurrencyToByn ? 'Currency to BYN' : 'BYN to currency'
+    },
+    amountLabel() {
+      return 'Amount in ' + (this.isCurrencyToByn ? this.selectedCurrency : 'BYN')
+    },
+    resultCurrencyCode() {
+      return this.isCurrencyToByn ? 'BYN' : this.selectedCurrency
+    },
     convertedAmount() {
       if (!this.selectedRate || typeof this.amount !== 'number') {
         return null
       }
 
-      return roundTo((this.amount * this.selectedRate.Cur_OfficialRate) / this.selectedRate.Cur_Scale)
+      const ratePerUnit = this.selectedRate.Cur_OfficialRate / this.selectedRate.Cur_Scale
+
+      if (this.isCurrencyToByn) {
+        return roundTo(this.amount * ratePerUnit)
+      }
+
+      return roundTo(this.amount / ratePerUnit)
     },
     formattedResult() {
       if (this.convertedAmount === null) {
-        return this.loading ? 'Loading...' : '0.00 BYN'
+        return this.loading ? 'Loading...' : '0.00 ' + this.resultCurrencyCode
       }
 
-      return this.convertedAmount.toFixed(2) + ' BYN'
+      return this.convertedAmount.toFixed(2) + ' ' + this.resultCurrencyCode
     },
     rateDescription() {
       if (!this.selectedRate) {
@@ -235,6 +311,9 @@ export default {
       this.copied = false
     },
     amount() {
+      this.copied = false
+    },
+    conversionDirection() {
       this.copied = false
     }
   },
