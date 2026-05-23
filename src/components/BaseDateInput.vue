@@ -84,12 +84,12 @@
 
 .date-picker__trigger
   width 100%
-  height 46px
+  min-height 46px
   display grid
-  grid-template-columns 36px 1fr
+  grid-template-columns minmax(30px, 36px) minmax(0, 1fr)
   align-items center
   gap 10px
-  padding 0 12px 0 10px
+  padding 7px 12px 7px 10px
   border 1px solid #c8d4e5
   border-radius 8px
   background linear-gradient(180deg, #ffffff 0%, #f8fbff 100%)
@@ -159,7 +159,7 @@
 
 .calendar
   width 320px
-  max-width calc(100vw - 32px)
+  max-width calc(100vw - 24px)
   position absolute
   z-index 20
   top calc(100% + 10px)
@@ -190,8 +190,12 @@
   margin-bottom 12px
 
 .calendar__title
+  min-width 0
+  overflow hidden
   color #162033
   font-size .98rem
+  text-overflow ellipsis
+  white-space nowrap
   text-align center
 
 .calendar__nav
@@ -304,13 +308,45 @@
     outline none
 
 @media (max-width: 520px)
+  .date-picker__trigger
+    grid-template-columns 30px minmax(0, 1fr)
+    gap 8px
+    min-height 48px
+    padding 7px 10px
+
+  .date-picker__icon
+    width 30px
+    height 30px
+
   .calendar
+    width 320px
     right 0
     left auto
+    top calc(100% + 8px)
+    padding 10px
 
     &::before
       right 22px
       left auto
+
+  .calendar__header
+    grid-template-columns 32px minmax(0, 1fr) 32px
+    gap 6px
+
+  .calendar__nav
+    width 32px
+    height 32px
+
+  .calendar__grid,
+  .calendar__weekdays
+    gap 3px
+
+  .calendar__day
+    min-width 0
+    font-size .82rem
+
+  .calendar__footer
+    gap 8px
 </style>
 
 <script>

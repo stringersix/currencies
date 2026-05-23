@@ -14,6 +14,7 @@
   display flex
   align-items center
   gap 10px
+  min-width 0
   padding 12px 14px
   border 1px solid
   border-radius 8px
@@ -21,6 +22,7 @@
   font-weight 700
 
 .alert__icon
+  flex 0 0 auto
   width 20px
   height 20px
   display inline-flex
@@ -29,6 +31,16 @@
   border-radius 50%
   color #fff
   font-size .78rem
+
+.alert span:last-child
+  min-width 0
+  overflow-wrap anywhere
+
+@media (max-width: 520px)
+  .alert
+    align-items flex-start
+    padding 11px 12px
+    font-size .9rem
 
 .alert--error
   border-color #e7b8bd

@@ -63,14 +63,17 @@
 
 <style lang="stylus" scoped>
 .app-shell
+  width 100%
   min-height 100vh
+  min-height 100dvh
   display grid
   place-items center
-  padding 24px
+  padding clamp(16px, 4vw, 32px)
 
 .converter
   width min(100%, 440px)
-  padding 28px
+  min-width 0
+  padding clamp(18px, 4vw, 28px)
   border 1px solid #d8e1ef
   border-radius 8px
   background #fff
@@ -81,7 +84,7 @@
 
 .converter__form
   display grid
-  gap 18px
+  gap clamp(14px, 3vw, 18px)
   margin 0
 
 .eyebrow
@@ -94,14 +97,15 @@
 
 h1
   margin 0
-  font-size 2rem
+  font-size clamp(1.65rem, 7vw, 2rem)
   line-height 1.15
 
 .result-panel
   display grid
   gap 6px
   margin-top 18px
-  padding 18px
+  min-width 0
+  padding clamp(14px, 4vw, 18px)
   border 1px solid #cfd9e8
   border-radius 8px
   background #f8fafc
@@ -112,11 +116,15 @@ h1
   font-weight 700
 
 .result-panel strong
-  font-size 2rem
+  min-width 0
+  overflow-wrap anywhere
+  font-size clamp(1.55rem, 7vw, 2rem)
   line-height 1.15
 
 .result-panel small
+  min-width 0
   color #5b6f91
+  overflow-wrap anywhere
 
 .copy-button
   margin-top 18px
@@ -127,14 +135,10 @@ h1
 @media (max-width: 520px)
   .app-shell
     align-items start
-    padding 16px
+    padding 12px
 
   .converter
-    padding 20px
-
-  h1,
-  .result-panel strong
-    font-size 1.65rem
+    width 100%
 </style>
 
 <script>

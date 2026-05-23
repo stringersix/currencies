@@ -14,13 +14,14 @@
 <style lang="stylus" scoped>
 .number-input
   width 100%
-  height 44px
+  min-height 46px
   padding 0 12px
   border 1px solid #c8d4e5
   border-radius 8px
   background #fff
   color #162033
   font inherit
+  font-size 1rem
   transition border-color .16s ease, box-shadow .16s ease
 
   &:focus
@@ -30,6 +31,11 @@
 
   &::placeholder
     color #8797ad
+
+@media (max-width: 520px)
+  .number-input
+    min-height 48px
+    padding 0 10px
 </style>
 
 <script>

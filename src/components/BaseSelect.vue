@@ -68,12 +68,12 @@
 
 .select__trigger
   width 100%
-  height 46px
+  min-height 46px
   display grid
-  grid-template-columns 32px 1fr 18px
+  grid-template-columns minmax(30px, 32px) minmax(0, 1fr) 18px
   align-items center
   gap 10px
-  padding 0 12px 0 10px
+  padding 7px 12px 7px 10px
   border 1px solid #c8d4e5
   border-radius 8px
   background linear-gradient(180deg, #ffffff 0%, #f8fbff 100%)
@@ -98,7 +98,8 @@
     cursor not-allowed
 
 .select__coin
-  width 32px
+  width 100%
+  min-width 30px
   height 32px
   display inline-flex
   align-items center
@@ -146,6 +147,8 @@
 
 .select__menu
   width 100%
+  min-width min(100%, 240px)
+  max-width calc(100vw - 24px)
   position absolute
   z-index 30
   top calc(100% + 10px)
@@ -179,7 +182,7 @@
 .select__option
   min-height 44px
   display grid
-  grid-template-columns 54px 1fr 16px
+  grid-template-columns minmax(42px, 54px) minmax(0, 1fr) 16px
   align-items center
   gap 10px
   padding 7px 10px
@@ -232,11 +235,28 @@
   transform rotate(45deg)
 
 @media (max-width: 520px)
+  .select__trigger
+    grid-template-columns 30px minmax(0, 1fr) 16px
+    gap 8px
+    min-height 48px
+    padding 7px 10px
+
+  .select__coin
+    height 30px
+    font-size .64rem
+
+  .select__menu
+    max-width calc(100vw - 24px)
+    top calc(100% + 8px)
+
   .select__options
-    max-height 244px
+    max-height calc(100dvh - 180px)
 
   .select__option
-    grid-template-columns 46px 1fr 16px
+    grid-template-columns 42px minmax(0, 1fr) 16px
+    gap 8px
+    min-height 48px
+    padding 8px
 </style>
 
 <script>

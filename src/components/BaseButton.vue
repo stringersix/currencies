@@ -23,6 +23,7 @@
   cursor pointer
   font inherit
   font-weight 800
+  text-align center
   transition background .16s ease, box-shadow .16s ease, transform .16s ease
 
   &:hover:not(:disabled)
@@ -38,6 +39,11 @@
   &:disabled
     background #a9b7ca
     cursor not-allowed
+
+@media (max-width: 520px)
+  .button
+    min-height 48px
+    padding 0 14px
 </style>
 
 <script>
